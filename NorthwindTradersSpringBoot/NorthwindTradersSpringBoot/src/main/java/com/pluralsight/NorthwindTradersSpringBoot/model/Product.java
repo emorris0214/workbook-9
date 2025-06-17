@@ -1,47 +1,33 @@
+// Product.java - Fully Updated to Support Product Features
 package com.pluralsight.NorthwindTradersSpringBoot.model;
 
-public class Customer {
+public class Product {
 
-    private String productId, companyName, contactName, contactTitle, address, city, region, postalCode, country, phone, fax;
+    private String productId;
+    private String productName;
+    private String quantityPerUnit;
+    private double unitPrice;
+    private int unitsInStock;
 
-    public Customer(String productId, String companyName, String contactName, String contactTitle, String address, String city, String region, String postalCode, String country, String phone, String fax) {
+    // Full constructor with all fields
+    public Product(int productId, String productName, String quantityPerUnit, double unitPrice, int unitsInStock) {
+        this.productId = String.valueOf(productId);
+        this.productName = productName;
+        this.quantityPerUnit = quantityPerUnit;
+        this.unitPrice = unitPrice;
+        this.unitsInStock = unitsInStock;
+    }
+
+    // Constructor used when retrieving from DB with ID as String
+    public Product(String productId, String productName, String quantityPerUnit, double unitPrice, int unitsInStock) {
         this.productId = productId;
-        this.companyName = companyName;
-        this.contactName = contactName;
-        this.contactTitle = contactTitle;
-        this.address = address;
-        this.city = city;
-        this.region = region;
-        this.postalCode = postalCode;
-        this.country = country;
-        this.phone = phone;
-        this.fax = fax;
+        this.productName = productName;
+        this.quantityPerUnit = quantityPerUnit;
+        this.unitPrice = unitPrice;
+        this.unitsInStock = unitsInStock;
     }
 
-    public Product(String productId, String companyName, String contactName, String contactTitle) {
-        this.productId = productId;
-        this.companyName = companyName;
-        this.contactName = contactName;
-        this.contactTitle = contactTitle;
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "productId='" + productId + '\'' +
-                ", companyName='" + companyName + '\'' +
-                ", contactName='" + contactName + '\'' +
-                ", contactTitle='" + contactTitle + '\'' +
-                ", address='" + address + '\'' +
-                ", city='" + city + '\'' +
-                ", region='" + region + '\'' +
-                ", postalCode='" + postalCode + '\'' +
-                ", country='" + country + '\'' +
-                ", phone='" + phone + '\'' +
-                ", fax='" + fax + '\'' +
-                '}';
-    }
-
+    // Getters and setters
     public String getProductId() {
         return productId;
     }
@@ -50,83 +36,46 @@ public class Customer {
         this.productId = productId;
     }
 
-    public String getCompanyName() {
-        return companyName;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public String getContactName() {
-        return contactName;
+    public String getQuantityPerUnit() {
+        return quantityPerUnit;
     }
 
-    public void setContactName(String contactName) {
-        this.contactName = contactName;
+    public void setQuantityPerUnit(String quantityPerUnit) {
+        this.quantityPerUnit = quantityPerUnit;
     }
 
-    public String getContactTitle() {
-        return contactTitle;
+    public double getUnitPrice() {
+        return unitPrice;
     }
 
-    public void setContactTitle(String contactTitle) {
-        this.contactTitle = contactTitle;
+    public void setUnitPrice(double unitPrice) {
+        this.unitPrice = unitPrice;
     }
 
-    public String getAddress() {
-        return address;
+    public int getUnitsInStock() {
+        return unitsInStock;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setUnitsInStock(int unitsInStock) {
+        this.unitsInStock = unitsInStock;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getFax() {
-        return fax;
-    }
-
-    public void setFax(String fax) {
-        this.fax = fax;
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId='" + productId + '\'' +
+                ", productName='" + productName + '\'' +
+                ", quantityPerUnit='" + quantityPerUnit + '\'' +
+                ", unitPrice=" + unitPrice +
+                ", unitsInStock=" + unitsInStock +
+                '}';
     }
 }

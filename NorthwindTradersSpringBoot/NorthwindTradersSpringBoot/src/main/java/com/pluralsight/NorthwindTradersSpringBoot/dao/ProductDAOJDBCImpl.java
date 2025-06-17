@@ -1,37 +1,65 @@
 package com.pluralsight.NorthwindTradersSpringBoot.dao;
 
 import com.pluralsight.NorthwindTradersSpringBoot.model.Product;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class ProductDAOJDBCImpl implements ProductDAO {
 
     private final DataSource dataSource;
 
-    @Autowired
     public ProductDAOJDBCImpl(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
+
+    @Override
+    public Product getByProductId(int productId) {
+        String sql = "SELECT ProductID, ProductName, QuantityPerUnit, UnitPrice, UnitsInStock FROM products WHERE ProductID= ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, String.valueOf(productId));
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new Product(
+                        rs.getString("ProductID"),
+                        rs.getString("ProductName"),
+                        rs.getString("QuantityPerUnit"),
+                        rs.getDouble("UnitPrice"),
+                        rs.getInt("UnitsInStock")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // You can throw a runtime exception or custom exception here
+        }
+        return null; // or throw exception if preferred
+    }
+
+
     @Override
     public List<Product> getAll() {
         List<Product> products = new ArrayList<>();
-        String query = "SELECT ProductID, ProductName, UnitPrice, UnitsInStock FROM products";
-
+        String sql = "SELECT ProductID, ProductName, QuantityPerUnit, UnitPrice, UnitsInStock FROM products";
         try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query);
-             ResultSet set = stmt.executeQuery()) {
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
 
-            while (set.next()) {
-                Product product = new Product(set.getInt("ProductID"),
-                        set.getString("ProductName"),
-                        set.getDouble("UnitPrice"),
-                        set.getInt("UnitsInStock"));
+            while (rs.next()) {
+                Product product = new Product(
+                        rs.getString("ProductID"),
+                        rs.getString("ProductName"),
+                        rs.getString("QuantityPerUnit"),
+                        rs.getDouble("UnitPrice"),
+                        rs.getInt("UnitsInStock")
+                );
                 products.add(product);
             }
         } catch (SQLException e) {
@@ -40,39 +68,19 @@ public class ProductDAOJDBCImpl implements ProductDAO {
         return products;
     }
 
+
     @Override
-    public Product getByProductId(int id) {
-        String query = "SELECT ProductID, ProductName, UnitPrice, UnitsInStock FROM products WHERE ProductID = ?";
+    public void add(Product product) {
+        String sql = "INSERT INTO products (ProductID, ProductName, QuantityPerUnit, UnitPrice, UnitsInStock) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return new Product(
-                        rs.getInt("ProductID"),
-                        rs.getString("ProductName"),
-                        rs.getDouble("UnitPrice"),
-                        rs.getInt("UnitsInStock")
-                );
-            }
+            stmt.setString(1, product.getProductId());
+            stmt.setString(2, product.getProductName());
+            stmt.setString(3, product.getQuantityPerUnit());
+            stmt.setDouble(4, product.getUnitPrice());
+            stmt.setInt(5, product.getUnitsInStock());
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    @Override
-    public void addProduct(Product product) {
-        String sql = "INSERT INTO products (ProductName, UnitPrice, UnitsInStock) VALUES (?, ?, ?)";
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, product.getProductName());
-            stmt.setDouble(2, product.getUnitPrice());
-            stmt.setInt(3, product.getUnitsInStock());
             stmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -81,33 +89,17 @@ public class ProductDAOJDBCImpl implements ProductDAO {
     }
 
     @Override
-    public void updateProduct(Product product) {
-        String sql = "UPDATE products SET ProductName = ?, UnitPrice = ?, UnitsInStock = ? WHERE ProductID = ?";
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, product.getProductName());
-            stmt.setDouble(2, product.getUnitPrice());
-            stmt.setInt(3, product.getUnitsInStock());
-            stmt.setInt(4, product.getProductId());
-            stmt.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void deleteProduct(int id) {
+    public void delete(int productId) {
         String sql = "DELETE FROM products WHERE ProductID = ?";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, id);
+            stmt.setString(1, String.valueOf(productId));
             stmt.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 }
