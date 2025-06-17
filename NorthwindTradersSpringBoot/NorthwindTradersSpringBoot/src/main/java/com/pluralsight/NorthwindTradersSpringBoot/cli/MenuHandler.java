@@ -36,8 +36,8 @@ public class MenuHandler {
         switch (option) {
             case "0" -> exitScreen();
             case "1" -> showAllProducts();
-            case "2" -> addProduct();
-            case "3" -> deleteProduct();
+//            case "2" -> addProduct();
+//            case "3" -> deleteProduct();
             default -> {
                 System.out.println("Invalid option. Please try again.");
                 showMainMenu();
@@ -51,35 +51,35 @@ public class MenuHandler {
         showMainMenu();
     }
 
-    private void addProduct() {
-        System.out.print("Enter Product Name: ");
-        String name = utils.getUserInput();
-
-        System.out.print("Enter Quantity Per Unit: ");
-        String quantityPerUnit = utils.getUserInput();
-
-        System.out.print("Enter Unit Price: ");
-        double unitPrice = Double.parseDouble(utils.getUserInput());
-
-        System.out.print("Enter Units In Stock: ");
-        int unitsInStock = Integer.parseInt(utils.getUserInput());
-
-        Product newProduct = new Product(0, name, quantityPerUnit, unitPrice, unitsInStock);
-        productService.addProduct(newProduct);
-
-        System.out.println("Product added successfully.");
-        utils.pauseBriefly();
-        showMainMenu();
-    }
-
-    private void deleteProduct() {
-        System.out.print("Enter Product ID to delete: ");
-        int productId = Integer.parseInt(utils.getUserInput());
-        productService.deleteProduct(productId);
-        System.out.println("Product deleted successfully.");
-        utils.pauseBriefly();
-        showMainMenu();
-    }
+//    private void addProduct() {
+//        System.out.print("Enter Product Name: ");
+//        String name = utils.getUserInput();
+//
+//        System.out.print("Enter Quantity Per Unit: ");
+//        String quantityPerUnit = utils.getUserInput();
+//
+//        System.out.print("Enter Unit Price: ");
+//        double unitPrice = Double.parseDouble(utils.getUserInput());
+//
+//        System.out.print("Enter Units In Stock: ");
+//        int unitsInStock = Integer.parseInt(utils.getUserInput());
+//
+//        Product newProduct = new Product(0, name, quantityPerUnit, unitPrice, unitsInStock);
+//        productService.addProduct(newProduct);
+//
+//        System.out.println("Product added successfully.");
+//        utils.pauseBriefly();
+//        showMainMenu();
+//    }
+//
+//    private void deleteProduct() {
+//        System.out.print("Enter Product ID to delete: ");
+//        int productId = Integer.parseInt(utils.getUserInput());
+//        productService.deleteProduct(productId);
+//        System.out.println("Product deleted successfully.");
+//        utils.pauseBriefly();
+//        showMainMenu();
+//    }
 
     private void exitScreen() {
         System.out.println("Thank you for using Northwind Traders CLI.");

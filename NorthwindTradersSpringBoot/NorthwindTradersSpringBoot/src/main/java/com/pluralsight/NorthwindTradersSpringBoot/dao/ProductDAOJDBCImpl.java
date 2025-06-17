@@ -29,11 +29,10 @@ public class ProductDAOJDBCImpl implements ProductDAO {
 
             if (rs.next()) {
                 return new Product(
-                        rs.getString("ProductID"),
+                        rs.getInt("ProductID"),
                         rs.getString("ProductName"),
-                        rs.getString("QuantityPerUnit"),
-                        rs.getDouble("UnitPrice"),
-                        rs.getInt("UnitsInStock")
+                        rs.getInt("CategoryID"),
+                        rs.getDouble("UnitPrice")
                 );
             }
         } catch (SQLException e) {
@@ -54,11 +53,10 @@ public class ProductDAOJDBCImpl implements ProductDAO {
 
             while (rs.next()) {
                 Product product = new Product(
-                        rs.getString("ProductID"),
+                        rs.getInt("ProductID"),
                         rs.getString("ProductName"),
-                        rs.getString("QuantityPerUnit"),
-                        rs.getDouble("UnitPrice"),
-                        rs.getInt("UnitsInStock")
+                        rs.getInt("CategoryID"),
+                        rs.getDouble("UnitPrice")
                 );
                 products.add(product);
             }
@@ -75,11 +73,10 @@ public class ProductDAOJDBCImpl implements ProductDAO {
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, product.getProductId());
+            stmt.setInt(1, product.getProductId());
             stmt.setString(2, product.getProductName());
-            stmt.setString(3, product.getQuantityPerUnit());
+            stmt.setInt(3, product.getCategoryId());
             stmt.setDouble(4, product.getUnitPrice());
-            stmt.setInt(5, product.getUnitsInStock());
 
             stmt.executeUpdate();
 
