@@ -14,6 +14,15 @@ public class NorthwindTradersSpringBootApplication {
 
 	Scanner keyboard = new Scanner(System.in);
 
+
+	while {
+
+		System.out.println("Welcome to ... Inventory");
+		System.out.println("Please select an option: ");
+		System.out.println("1.) List Products");
+		System.out.println("2.) Add Product");
+		keyboard.nextLine();
+	}
 }
 
 
